@@ -632,7 +632,9 @@ class Product:  # pylint: disable=too-few-public-methods
         """
         Function to display the product details.
         """
-        print(f"The product {self.name} has a price of {self.price}")
+        msg = f"The product {self.name} has a price of {self.price}"
+        print(msg)
+        return msg
 
 
 class ShoppingCart:
