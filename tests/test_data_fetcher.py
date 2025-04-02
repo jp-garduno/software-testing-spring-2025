@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Mockup unit testing examples.
+Mock up testing examples.
 """
 import unittest
 from unittest.mock import patch
@@ -9,24 +9,26 @@ from unittest.mock import patch
 from src.data_fetcher import fetch_data_from_api
 
 
-class TestFecthDataFromApi(unittest.TestCase):
+class TestDataFetcher(unittest.TestCase):
     """
-    fetch_data_from_api unittest class.
+    Data fetcher unittest class.
     """
 
-    def test_fetch_data_from_api(self):
+    @patch("src.data_fetcher.requests.get")
+    def test_fetch_data_from_api_success(self, mock_get):
         """
-        Test the fetch_data_from_api function.
+        Success case.
         """
-        url = "https://jsonplaceholder.typicode.com/posts"
+        # Set up the mock response
+        mock_get.return_value.json.return_value = {"key": "value"}
 
         # Mock the requests.get method
-        with patch("requests.get") as mock_get:
-            mock_get.return_value.status_code = 200
-            mock_get.return_value.json.return_value = [
-                {"id": 1, "title": "Title 1", "body": "Body 1"},
-                {"id": 2, "title": "Title 2", "body": "Body 2"},
-            ]
+        # with patch("requests.get") as mock_get:
+        #     mock_get.return_value.status_code = 200
+        #     mock_get.return_value.json.return_value = [
+        #         {"id": 1, "title": "Title 1", "body": "Body 1"},
+        #         {"id": 2, "title": "Title 2", "body": "Body 2"},
+        #     ]
 
         # mock_get = patch('requests.get')
         # mock_get.return_value.status_code = 200
@@ -35,10 +37,14 @@ class TestFecthDataFromApi(unittest.TestCase):
         #     {"id": 2, "title": "Title 2", "body": "Body 2"},
         # ]
 
-        data = fetch_data_from_api(url)
+        # Call the function under test
+        result = fetch_data_from_api("https://api.example.com/data")
 
-        # Verify data is what we expect
-        self.assertEqual(data[0]["id"], 1)
+        # Assert that the function returns the expected result
+        self.assertEqual(result, {"key": "value"})
+
+        # Assert that requests.get was called with the correct URL
+        mock_get.assert_called_once_with("https://api.example.com/data", timeout=10)
 
 
 # class TestPrint(unittest.TestCase):
