@@ -6,7 +6,7 @@ Mock up testing examples.
 import unittest
 from unittest.mock import patch
 
-from src.data_fetcher import fetch_data_from_api
+from src.mockup_exercises import fetch_data_from_api
 
 
 class TestDataFetcher(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestDataFetcher(unittest.TestCase):
     Data fetcher unittest class.
     """
 
-    @patch("src.data_fetcher.requests.get")
+    @patch("src.mockup_exercises.requests.get")
     def test_fetch_data_from_api_success(self, mock_get):
         """
         Success case.
