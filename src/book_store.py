@@ -37,7 +37,7 @@ class BookStore:
     def add_book(self, book):
         """Adds a book to the store."""
         self.books.append(book)
-        print(f"Book '{book.title}' added to the store.")
+        return(f"Book '{book.title}' added to the store.")
 
     def display_books(self):
         """Displays all books available in the store."""
