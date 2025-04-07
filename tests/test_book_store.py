@@ -57,3 +57,62 @@ class TestBookStore(unittest.TestCase):
         """
         book_store = BookStore()
         self.assertEqual(book_store.books, [])
+
+    def test_add_book(self):
+        """
+        Checks the add book function.
+        """
+        book_store = BookStore()
+        book = Book("title", "author", 9.99, 5)
+        book_store.add_book(book)
+        self.assertEqual(len(book_store.books), 1)
+        self.assertEqual(book_store.books[0], book)
+
+    def test_display_books_empty(self):
+        """
+        Checks the display books function with no books.
+        """
+        book_store = BookStore()
+        with patch("builtins.print") as mock_print:
+            book_store.display_books()
+            self.assertTrue(mock_print.called)
+            mock_print.assert_called_with("No books in the store.")
+
+    def test_display_books(self):
+        """
+        Checks the display books function with books.
+        """
+        book_store = BookStore()
+        book = Book("title", "author", 9.99, 5)
+        book_store.add_book(book)
+        with patch("builtins.print") as mock_print:
+            book_store.display_books()
+            self.assertTrue(mock_print.called)
+            self.assertEqual(mock_print.call_count, 5)
+            mock_print.assert_any_call(f"Title: {book.title}")
+            mock_print.assert_called_with(f"Quantity: {book.quantity}")
+      
+
+    def test_find_book_no_books(self):
+        """
+        Checks the search book function with no books.
+        """
+        book_store = BookStore()
+        with patch("builtins.print") as mock_print:
+            book_store.search_book("title")
+            self.assertTrue(mock_print.called)
+            mock_print.assert_called_with("No book found with title 'title'.")
+
+    def test_find_book(self):
+        """
+        Checks the search book function with books.
+        """
+        book_store = BookStore()
+        book = Book("title", "author", 9.99, 5)
+        book_store.add_book(book)
+        with patch("builtins.print") as mock_print:
+            book_store.search_book("title")
+            self.assertTrue(mock_print.called)
+            self.assertEqual(mock_print.call_count, 5)
+            mock_print.assert_any_call(f"Found {len(book_store.books)} book(s) with title '{book.title}':")
+            mock_print.assert_called_with(f"Quantity: {book.quantity}")
